@@ -1,10 +1,7 @@
 package ru.job4j.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 public class Person {
@@ -12,13 +9,15 @@ public class Person {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String login;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)  // Только для записи, не для чтения
     private String password;
 
-    // Конструктор по умолчанию (обязателен для JPA)
+    private String role = "ROLE_USER";
+
     public Person() {
     }
 
-    // Геттеры и сеттеры
     public Integer getId() {
         return id;
     }
@@ -41,5 +40,13 @@ public class Person {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }
