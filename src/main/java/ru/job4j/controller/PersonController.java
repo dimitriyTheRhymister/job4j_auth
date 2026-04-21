@@ -67,7 +67,7 @@ public class PersonController {
                 ));
 
         person.setPassword(null);
-        return ResponseEntity.ok(person);
+        return ResponseEntity.ok(person); /*  ← Билдер! */
     }
 
     @GetMapping("/by-login")
@@ -83,7 +83,7 @@ public class PersonController {
                 ));
 
         person.setPassword(null);
-        return ResponseEntity.ok(person);
+        return ResponseEntity.ok(person); /*  ← Билдер! */
     }
 
     @PostMapping("/sign-up")
@@ -104,7 +104,7 @@ public class PersonController {
         Person saved = this.persons.save(person);
         saved.setPassword(null);
         saved.setRole(null);
-        return new ResponseEntity<>(saved, HttpStatus.CREATED);
+        return new ResponseEntity<>(saved, HttpStatus.CREATED); /*  ← Конструктор! */
     }
 
     @PostMapping("/")
@@ -121,7 +121,7 @@ public class PersonController {
         Person saved = this.persons.save(person);
         saved.setPassword(null);
         saved.setRole(null);
-        return new ResponseEntity<>(saved, HttpStatus.CREATED);
+        return new ResponseEntity<>(saved, HttpStatus.CREATED); /*  ← Конструктор! */
     }
 
     @PutMapping("/")
@@ -159,7 +159,7 @@ public class PersonController {
         }
 
         this.persons.save(person);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().build(); /*  ← Билдер (без тела)! */
     }
 
     @DeleteMapping("/{id}")
@@ -171,7 +171,7 @@ public class PersonController {
             );
         }
         this.persons.deleteById(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().build(); /*  ← Билдер (без тела)! */
     }
 
     @GetMapping("/public/test")
