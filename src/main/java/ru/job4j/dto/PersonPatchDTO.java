@@ -1,8 +1,15 @@
 package ru.job4j.dto;
 
+import jakarta.validation.constraints.Size;
+
 public class PersonPatchDTO {
+
+    @Size(min = 3, max = 50, message = "Login must be between 3 and 50 characters")
     private String login;
+
+    @Size(min = 6, message = "Password must be at least 6 characters long")
     private String password;
+
     private String role;
 
     public String getLogin() {

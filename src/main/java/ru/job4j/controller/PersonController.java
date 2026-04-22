@@ -1,7 +1,9 @@
 package ru.job4j.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import ru.job4j.domain.Person;
@@ -9,6 +11,7 @@ import ru.job4j.dto.PersonPatchDTO;
 import ru.job4j.dto.PersonResponseDTO;
 import ru.job4j.exception.InvalidPasswordException;
 import ru.job4j.service.PersonService;
+import ru.job4j.validation.Operation;
 
 import java.util.HashMap;
 import java.util.List;
@@ -58,16 +61,18 @@ public class PersonController {
         return ResponseEntity.ok(new PersonResponseDTO(person));
     }
 
-    /* ========== POST методы ========== */
+    /* ========== POST методы (с валидацией) ========== */
 
     @PostMapping("/sign-up")
-    public ResponseEntity<PersonResponseDTO> signUp(@RequestBody Person person) {
+    @Validated(Operation.OnCreate.class)
+    public ResponseEntity<PersonResponseDTO> signUp(@Valid @RequestBody Person person) {
         Person saved = personService.create(person);
         return new ResponseEntity<>(new PersonResponseDTO(saved), HttpStatus.CREATED);
     }
 
     @PostMapping("/")
-    public ResponseEntity<PersonResponseDTO> create(@RequestBody Person person) {
+    @Validated(Operation.OnCreate.class)
+    public ResponseEntity<PersonResponseDTO> create(@Valid @RequestBody Person person) {
         Person saved = personService.create(person);
         return new ResponseEntity<>(new PersonResponseDTO(saved), HttpStatus.CREATED);
     }
@@ -75,7 +80,8 @@ public class PersonController {
     /* ========== PUT метод (полное обновление) ========== */
 
     @PutMapping("/")
-    public ResponseEntity<Void> update(@RequestBody Person person) {
+    @Validated(Operation.OnUpdate.class)
+    public ResponseEntity<Void> update(@Valid @RequestBody Person person) {
         personService.update(person);
         return ResponseEntity.ok().build();
     }
@@ -85,7 +91,7 @@ public class PersonController {
     @PatchMapping("/{id}")
     public ResponseEntity<PersonResponseDTO> patchUpdate(
             @PathVariable int id,
-            @RequestBody PersonPatchDTO patchData) {
+            @Valid @RequestBody PersonPatchDTO patchData) {
         Person updated = personService.patchUpdate(id, patchData);
         return ResponseEntity.ok(new PersonResponseDTO(updated));
     }
